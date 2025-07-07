@@ -15,10 +15,15 @@ const allCats = [
 ];
 
 export default function WebsiteForm() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    url: string;
+    videoSourceUrl: string;
+    categories: string[];
+    notes: string;
+  }>({
     url: "",
     videoSourceUrl: "",
-    categories: [] as string[],
+    categories: [],
     notes: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +38,7 @@ export default function WebsiteForm() {
         : [...s.categories, cat],
     }));
 
-  const submit = async (e: { preventDefault: () => void }) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -44,25 +49,13 @@ export default function WebsiteForm() {
       process.env.NEXT_PUBLIC_ADMIN_KEY ||
       "658604870b3a9f0ea96aa289906e4df2e02e4379cc870693509191a046eeb798";
 
-    console.log("Form data:", form);
-    console.log("Admin key:", adminKey ? "Present" : "Missing");
-    console.log("Environment:", process.env.NODE_ENV);
-
     try {
-      console.log("Making API request to /api/websites...");
-
       const requestData = {
         url: form.url.trim(),
         videoSourceUrl: form.videoSourceUrl.trim(),
         categories: form.categories,
         notes: form.notes.trim() || null,
       };
-
-      console.log("Request payload:", requestData);
-      console.log("Request headers:", {
-        "x-admin-key": adminKey ? "***PRESENT***" : "MISSING",
-        "Content-Type": "application/json",
-      });
 
       const response = await axios.post("/api/websites", requestData, {
         headers: {
@@ -71,9 +64,6 @@ export default function WebsiteForm() {
         },
         timeout: 10000, // 10 second timeout
       });
-
-      console.log("Response status:", response.status);
-      console.log("Response data:", response.data);
 
       if (response.status === 201) {
         setSuccess("✅ Website saved successfully!");
@@ -212,53 +202,6 @@ export default function WebsiteForm() {
 
       {/* Test API Button and Submit Button */}
       <div className="pt-4 space-y-3">
-        {/* Test API Button */}
-        <button
-          type="button"
-          onClick={async () => {
-            try {
-              console.log("Testing minimal API endpoint...");
-
-              // Test minimal API first
-              const minimalResponse = await fetch("/api/minimal-test", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ test: "minimal" }),
-              });
-              const minimalData = await minimalResponse.json();
-              console.log(
-                "Minimal API test:",
-                minimalResponse.status,
-                minimalData
-              );
-
-              // Test simple API
-              const simpleResponse = await fetch("/api/simple", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ test: "simple" }),
-              });
-              const simpleData = await simpleResponse.json();
-              console.log(
-                "Simple API test:",
-                simpleResponse.status,
-                simpleData
-              );
-
-              alert(
-                `Minimal API: ${minimalResponse.status}\nSimple API: ${simpleResponse.status}\nCheck console for details.`
-              );
-            } catch (error) {
-              console.error("API test failed:", error);
-              alert(`API test failed: ${error}`);
-            }
-          }}
-          className="btn-secondary w-full sm:w-auto sm:min-w-[200px]"
-          disabled={isLoading}
-        >
-          🔧 Test API Connection
-        </button>
-
         {/* Submit Button */}
         <button
           type="submit"
@@ -275,6 +218,38 @@ export default function WebsiteForm() {
           ) : (
             <>🚀 Save Website</>
           )}
+        </button>
+        {/* Test API Button */}
+        <button
+          type="button"
+          onClick={async () => {
+            try {
+              // Test minimal API first
+              const minimalResponse = await fetch("/api/minimal-test", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ test: "minimal" }),
+              });
+
+              // Test simple API
+              const simpleResponse = await fetch("/api/simple", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ test: "simple" }),
+              });
+
+              alert(
+                `Minimal API: ${minimalResponse.status}\nSimple API: ${simpleResponse.status}\nCheck console for details.`
+              );
+            } catch (error) {
+              console.error("API test failed:", error);
+              alert(`API test failed: ${error}`);
+            }
+          }}
+          className="btn-secondary w-full sm:w-auto sm:min-w-[200px]"
+          disabled={isLoading}
+        >
+          🔧 Test API Connection
         </button>
       </div>
     </form>

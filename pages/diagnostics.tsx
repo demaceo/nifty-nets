@@ -31,12 +31,10 @@ export default function Diagnostics({
     try {
       const response = await fetch(`/api/${endpoint}`);
       const data = await response.json();
-      console.log(`${endpoint} response:`, response.status, data);
       alert(
         `${endpoint}: ${response.status} - ${JSON.stringify(data, null, 2)}`
       );
     } catch (error) {
-      console.error(`${endpoint} error:`, error);
       alert(`${endpoint} error: ${error}`);
     }
   };

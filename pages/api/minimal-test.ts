@@ -1,13 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-    console.log('=== MINIMAL API DEBUG ===');
-    console.log('Method:', req.method);
-    console.log('Headers:', req.headers);
-    console.log('Body:', req.body);
-    console.log('Query:', req.query);
-    console.log('URL:', req.url);
-    console.log('========================');
 
     // Set basic headers
     res.setHeader('Access-Control-Allow-Origin', '*');

@@ -2,9 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        console.log('Test API called with method:', req.method);
-        console.log('Headers:', req.headers);
-        console.log('Body:', req.body);
 
         if (req.method === 'GET') {
             return res.status(200).json({ message: 'Test GET successful', timestamp: new Date().toISOString() });

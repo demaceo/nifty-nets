@@ -1,10 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-    console.log('Simple API called');
-    console.log('Method:', req.method);
-    console.log('Environment:', process.env.NODE_ENV);
-
     if (req.method === 'GET') {
         return res.status(200).json({
             message: 'Simple API works!',

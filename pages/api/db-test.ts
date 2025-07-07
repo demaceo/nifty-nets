@@ -7,15 +7,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        console.log('Testing database connection...');
-
         // Simple database test
-        const result = await prisma.$queryRaw`SELECT 1 as test`;
-        console.log('Database connection successful:', result);
+        await prisma.$queryRaw`SELECT 1 as test`;
 
         // Test if Website table exists and count records
         const count = await prisma.website.count();
-        console.log('Website count:', count);
 
         return res.status(200).json({
             message: 'Database connection successful',
@@ -24,7 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
     } catch (error) {
-        console.error('Database test error:', error);
         return res.status(500).json({
             error: 'Database connection failed',
             details: (error as Error).message
