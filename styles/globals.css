@@ -815,28 +815,14 @@ form::before {
   animation: rotate-slow 20s linear infinite;
 }
 
-/* Enhanced shadows and depth */
-.card {
-  /* background: rgba(255, 255, 255, 0.17); */
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Enhanced styling for WebsiteCard */
 .card {
   background: var(--gradient-glass);
+  backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
+  padding: 24px;
   box-shadow: var(--shadow-glass);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
@@ -862,47 +848,13 @@ form::before {
 }
 
 .card .categories span {
-  background: var(--secondary-400);
-  color: var(--secondary-900);
+  background: none;
+  color: inherit;
   padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 500;
-}
-
-.card .categories span:hover {
-  background: var(--secondary-500);
-  color: var(--secondary-100);
-}
-
-.card textarea {
-  background: var(--gradient-dark);
-  color: var(--accent-cyan);
-  border: 1px solid var(--accent-cyan);
-  border-radius: var(--radius-md);
-  padding: var(--space-sm);
-  font-size: 0.875rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card textarea:focus {
-  border-color: var(--accent-emerald);
-  box-shadow: var(--shadow-glow);
-}
-
-.card button {
-  background: var(--gradient-primary);
-  color: #fff;
-  border-radius: var(--radius-md);
-  padding: var(--space-sm) var(--space-md);
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.card button:hover {
-  background: var(--gradient-secondary);
-  transform: translateY(-2px);
+  border: 1px solid var(--secondary-400);
 }
 
 /* Modern focus indicators */
