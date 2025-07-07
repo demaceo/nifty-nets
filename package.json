@@ -9,19 +9,29 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.5"
+    "@prisma/client": "^6.11.1",
+    "axios": "^1.10.0",
+    "metascraper": "^5.49.1",
+    "metascraper-description": "^5.49.1",
+    "metascraper-image": "^5.49.1",
+    "metascraper-title": "^5.49.1",
+    "metascraper-url": "^5.49.1",
+    "next": "^15.3.5",
+    "node-fetch": "^3.3.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "swr": "^2.3.4"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
-    "@eslint/eslintrc": "^3"
+    "prisma": "^6.11.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
