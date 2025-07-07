@@ -39,13 +39,19 @@ export default function WebsiteForm() {
     setError(null);
     setSuccess(null);
 
+    // Get admin key from environment or fallback
+    const adminKey =
+      process.env.NEXT_PUBLIC_ADMIN_KEY ||
+      "658604870b3a9f0ea96aa289906e4df2e02e4379cc870693509191a046eeb798";
+
     console.log("Form data:", form);
-    console.log("Admin key:", process.env.NEXT_PUBLIC_ADMIN_KEY);
+    console.log("Admin key:", adminKey ? "Present" : "Missing");
+    console.log("Environment:", process.env.NODE_ENV);
 
     try {
       const response = await axios.post("/api/websites", form, {
         headers: {
-          "x-admin-key": process.env.NEXT_PUBLIC_ADMIN_KEY,
+          "x-admin-key": adminKey,
           "Content-Type": "application/json",
         },
       });
@@ -69,6 +75,10 @@ export default function WebsiteForm() {
           setError(
             "❌ " + (err.response.data?.error || "Invalid data provided.")
           );
+        } else if (err.response?.status === 405) {
+          setError(
+            "❌ Method not allowed. The API endpoint may not be configured correctly."
+          );
         } else if (err.response?.status === 500) {
           setError(
             "❌ " +
@@ -90,25 +100,15 @@ export default function WebsiteForm() {
   return (
     <form onSubmit={submit} className="space-y-6">
       {/* Status Messages */}
-      {error && (
-        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-          {error}
-        </div>
-      )}
+      {error && <div className="alert alert-error">{error}</div>}
 
-      {success && (
-        <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-          {success}
-        </div>
-      )}
+      {success && <div className="alert alert-success">{success}</div>}
 
       {/* URL Input */}
-      <div>
-        <label className="block text-gray-700 font-medium mb-2">
-          Website URL *
-        </label>
+      <div className="form-group">
+        <label className="form-label">Website URL *</label>
         <input
-          className="w-full focus-ring"
+          className="form-input"
           type="url"
           placeholder="https://example.com"
           value={form.url}
@@ -119,12 +119,10 @@ export default function WebsiteForm() {
       </div>
 
       {/* Video URL Input */}
-      <div>
-        <label className="block text-gray-700 font-medium mb-2">
-          Video Source URL *
-        </label>
+      <div className="form-group">
+        <label className="form-label">Video Source URL *</label>
         <input
-          className="w-full focus-ring"
+          className="form-input"
           type="url"
           placeholder="https://youtube.com/watch?v=..."
           value={form.videoSourceUrl}
@@ -135,17 +133,19 @@ export default function WebsiteForm() {
       </div>
 
       {/* Categories */}
-      <div>
+      <div className="form-group">
         <fieldset className="border-0 p-0 m-0" disabled={isLoading}>
-          <legend className="block text-gray-700 font-medium mb-3">
-            Categories
-          </legend>
+          <legend className="form-label">Categories</legend>
           <div className="checkbox-grid">
             {allCats.map((cat) => (
               <label
                 key={cat}
-                className={`flex items-center space-x-2 p-3 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all cursor-pointer ${
+                className={`flex items-center space-x-2 p-3 rounded-lg border border-gray-600 bg-gray-800/50 hover:border-cyan-400 hover:bg-cyan-900/20 transition-all cursor-pointer ${
                   isLoading ? "opacity-50 cursor-not-allowed" : ""
+                } ${
+                  form.categories.includes(cat)
+                    ? "border-cyan-400 bg-cyan-900/30"
+                    : ""
                 }`}
               >
                 <input
@@ -155,7 +155,7 @@ export default function WebsiteForm() {
                   className="flex-shrink-0"
                   disabled={isLoading}
                 />
-                <span className="text-gray-700 font-medium capitalize text-sm sm:text-base">
+                <span className="text-gray-200 font-medium capitalize text-sm sm:text-base">
                   {cat}
                 </span>
               </label>
@@ -165,12 +165,10 @@ export default function WebsiteForm() {
       </div>
 
       {/* Notes */}
-      <div>
-        <label className="block text-gray-700 font-medium mb-2">
-          Notes (Optional)
-        </label>
+      <div className="form-group">
+        <label className="form-label">Notes (Optional)</label>
         <textarea
-          className="w-full focus-ring min-h-[100px] resize-y"
+          className="form-input min-h-[100px] resize-y"
           placeholder="Add any additional notes about this website..."
           value={form.notes}
           onChange={(e) => setForm({ ...form, notes: e.target.value })}
@@ -183,8 +181,8 @@ export default function WebsiteForm() {
       <div className="pt-4">
         <button
           type="submit"
-          className={`w-full sm:w-auto sm:min-w-[200px] ${
-            isLoading ? "opacity-75 cursor-not-allowed" : "float"
+          className={`btn-primary w-full sm:w-auto sm:min-w-[200px] ${
+            isLoading ? "opacity-75 cursor-not-allowed" : ""
           }`}
           disabled={isLoading}
         >

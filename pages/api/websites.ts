@@ -3,7 +3,21 @@ import prisma from '@/lib/prisma';
 import { fetchMetadata } from '@/lib/fetchMetadata';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    // Add CORS headers for development
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key');
+
+    // Handle preflight OPTIONS request
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     try {
+        console.log('API called with method:', req.method);
+        console.log('Headers:', req.headers);
+        console.log('Body:', req.body);
+
         if (req.method === 'GET') {
             const sites = await prisma.website.findMany({
                 orderBy: { createdAt: 'desc' },
@@ -14,8 +28,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (req.method === 'POST') {
             // Check admin authentication for POST requests
             const adminKey = req.headers['x-admin-key'];
-            if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
-                return res.status(401).json({ error: 'Unauthorized' });
+            const expectedKey = process.env.ADMIN_KEY;
+
+            console.log('Admin key present:', !!adminKey);
+            console.log('Expected key present:', !!expectedKey);
+            console.log('Keys match:', adminKey === expectedKey);
+
+            if (!adminKey || adminKey !== expectedKey) {
+                return res.status(401).json({
+                    error: 'Unauthorized',
+                    details: 'Invalid or missing admin key'
+                });
             }
 
             const { url, videoSourceUrl, categories, notes } = req.body as {
