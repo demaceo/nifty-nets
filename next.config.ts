@@ -1,11 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: {
-    serverComponentsExternalPackages: ['@prisma/client', 'prisma']
-  },
-
+  serverExternalPackages: ['@prisma/client', 'prisma'],
   // Ensure API routes use Node.js runtime
   api: {
     externalResolver: true,
