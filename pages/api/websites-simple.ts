@@ -27,11 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (req.method === 'POST') {
             console.log('Processing POST request...');
-            
+
             // Check admin authentication for POST requests
             const adminKey = req.headers['x-admin-key'];
             const expectedKey = process.env.ADMIN_KEY;
-            
+
             console.log('Admin key check:', {
                 hasAdminKey: !!adminKey,
                 hasExpectedKey: !!expectedKey,
