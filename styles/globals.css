@@ -817,7 +817,7 @@ form::before {
 
 /* Enhanced shadows and depth */
 .card {
-  background: rgba(255, 255, 255, 0.95);
+  /* background: rgba(255, 255, 255, 0.17); */
   backdrop-filter: blur(20px);
   border-radius: 16px;
   padding: 24px;

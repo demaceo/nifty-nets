@@ -22,16 +22,16 @@ export default function AdminPage() {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">
             Admin Dashboard
           </h1>
-          <p className="text-gray-600 text-sm sm:text-base">
+          {/* <p className="text-gray-600 text-sm sm:text-base">
             Add new websites to your collection
-          </p>
+          </p> */}
         </div>
 
         <div className="card">
           <WebsiteForm />
         </div>
         <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">Website List</h2>
+          {/* <h2 className="text-2xl font-semibold mb-4">User View</h2> */}
           <Home />
         </div>
       </div>
