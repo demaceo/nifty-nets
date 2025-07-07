@@ -90,7 +90,7 @@ export default function Home() {
                 }`}
                 onClick={() => setShowFavs((f) => !f)}
               >
-                ⭐ Favorites
+                ⭐ Favorited
               </button>
               <button
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
@@ -100,7 +100,7 @@ export default function Home() {
                 }`}
                 onClick={() => setShowNotes((f) => !f)}
               >
-                📝 Notes
+                📝 Noted
               </button>
             </div>
           </div>

@@ -148,7 +148,7 @@ export default function WebsiteCard({ site }: WebsiteCardProps) {
             onClick={saveNote}
             className="w-full text-sm font-medium bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 transition-all rounded-lg py-2"
           >
-            💾 Save Note
+          Save Note
           </button>
         </div>
       </div>
