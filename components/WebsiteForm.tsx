@@ -121,137 +121,137 @@ export default function WebsiteForm() {
   };
 
   return (
-    <form onSubmit={submit} className="space-y-6">
-      {/* Status Messages */}
-      {error && <div className="alert alert-error">{error}</div>}
+    <div className="form-container">
+      <form onSubmit={submit} className="space-y-6">
+        {/* Status Messages */}
+        {error && <div className="alert alert-error">{error}</div>}
 
-      {success && <div className="alert alert-success">{success}</div>}
+        {success && <div className="alert alert-success">{success}</div>}
 
-      {/* URL Input */}
-      <div className="form-group">
-        <label className="form-label">Website URL *</label>
-        <input
-          className="form-input"
-          type="url"
-          placeholder="https://example.com"
-          value={form.url}
-          onChange={(e) => setForm({ ...form, url: e.target.value })}
-          required
-          disabled={isLoading}
-        />
-      </div>
+        {/* URL Input */}
+        <div className="form-group">
+          <label className="form-label">Website URL *</label>
+          <input
+            className="form-input"
+            type="url"
+            placeholder="https://example.com"
+            value={form.url}
+            onChange={(e) => setForm({ ...form, url: e.target.value })}
+            required
+            disabled={isLoading}
+          />
+        </div>
 
-      {/* Video URL Input */}
-      <div className="form-group">
-        <label className="form-label">Video Source URL *</label>
-        <input
-          className="form-input"
-          type="url"
-          placeholder="https://youtube.com/watch?v=..."
-          value={form.videoSourceUrl}
-          onChange={(e) => setForm({ ...form, videoSourceUrl: e.target.value })}
-          required
-          disabled={isLoading}
-        />
-      </div>
-
-      {/* Categories */}
-      <div className="form-group">
-        <fieldset className="border-0 p-0 m-0" disabled={isLoading}>
-          <legend className="form-label">Categories</legend>
-          <div className="checkbox-grid">
-            {allCats.map((cat) => (
-              <label
-                key={cat}
-                className={`flex items-center space-x-2 p-3 rounded-lg border border-gray-600 bg-gray-800/50 hover:border-cyan-400 hover:bg-cyan-900/20 transition-all cursor-pointer ${
-                  isLoading ? "opacity-50 cursor-not-allowed" : ""
-                } ${
-                  form.categories.includes(cat)
-                    ? "border-cyan-400 bg-cyan-900/30"
-                    : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  checked={form.categories.includes(cat)}
-                  onChange={() => !isLoading && toggleCat(cat)}
-                  className="flex-shrink-0"
-                  disabled={isLoading}
-                />
-                <span className="text-gray-200 font-medium capitalize text-sm sm:text-base">
-                  {cat}
-                </span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-      </div>
-
-      {/* Notes */}
-      <div className="form-group">
-        <label className="form-label">Notes (Optional)</label>
-        <textarea
-          className="form-input min-h-[100px] resize-y"
-          placeholder="Add any additional notes about this website..."
-          value={form.notes}
-          onChange={(e) => setForm({ ...form, notes: e.target.value })}
-          rows={4}
-          disabled={isLoading}
-        />
-      </div>
-
-      {/* Test API Button and Submit Button */}
-      <div className="pt-4 space-y-3">
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className={`btn-primary w-full sm:w-auto sm:min-w-[200px] ${
-            isLoading ? "opacity-75 cursor-not-allowed" : ""
-          }`}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <span className="inline-block animate-spin mr-2">⏳</span>
-              Saving...
-            </>
-          ) : (
-            <>Add Website</>
-          )}
-        </button>
-        {/* Test API Button */}
-        <button
-          type="button"
-          onClick={async () => {
-            try {
-              // Test minimal API first
-              const minimalResponse = await fetch("/api/minimal-test", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ test: "minimal" }),
-              });
-
-              // Test simple API
-              const simpleResponse = await fetch("/api/simple", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ test: "simple" }),
-              });
-
-              alert(
-                `Minimal API: ${minimalResponse.status}\nSimple API: ${simpleResponse.status}\nCheck console for details.`
-              );
-            } catch (error) {
-              console.error("API test failed:", error);
-              alert(`API test failed: ${error}`);
+        {/* Video URL Input */}
+        <div className="form-group">
+          <label className="form-label">Video Source URL *</label>
+          <input
+            className="form-input"
+            type="url"
+            placeholder="https://youtube.com/watch?v=..."
+            value={form.videoSourceUrl}
+            onChange={(e) =>
+              setForm({ ...form, videoSourceUrl: e.target.value })
             }
-          }}
-          className="btn-secondary w-full sm:w-auto sm:min-w-[200px]"
-          disabled={isLoading}
-        >
-          🔧 Test API Connection
-        </button>
-      </div>
-    </form>
+            required
+            disabled={isLoading}
+          />
+        </div>
+
+        {/* Categories */}
+        <div className="form-group">
+          <fieldset className="border-0 p-0 m-0" disabled={isLoading}>
+            <legend className="form-label">Categories</legend>
+            <div className="checkbox-grid">
+              {allCats.map((cat) => (
+                <label
+                  key={cat}
+                  className={`checkbox-label ${
+                    form.categories.includes(cat) ? "selected" : ""
+                  } ${isLoading ? "disabled" : ""}`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.categories.includes(cat)}
+                    onChange={() => !isLoading && toggleCat(cat)}
+                    className="flex-shrink-0"
+                    disabled={isLoading}
+                  />
+                  <span className="text-gray-200 font-medium capitalize text-sm sm:text-base">
+                    {cat}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+
+        {/* Notes */}
+        <div className="form-group">
+          <label className="form-label">Notes (Optional)</label>
+          <textarea
+            className="form-input min-h-[100px] resize-y"
+            placeholder="Add any additional notes about this website..."
+            value={form.notes}
+            onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            rows={4}
+            disabled={isLoading}
+          />
+        </div>
+
+        {/* Test API Button and Submit Button */}
+        <div className="pt-4 space-y-3">
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className={`btn-primary w-full sm:w-auto sm:min-w-[200px] ${
+              isLoading ? "opacity-75 cursor-not-allowed" : ""
+            }`}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <span className="inline-block animate-spin mr-2">⏳</span>
+                Saving...
+              </>
+            ) : (
+              <>Add Website</>
+            )}
+          </button>
+          {/* Test API Button */}
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                // Test minimal API first
+                const minimalResponse = await fetch("/api/minimal-test", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ test: "minimal" }),
+                });
+
+                // Test simple API
+                const simpleResponse = await fetch("/api/simple", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ test: "simple" }),
+                });
+
+                alert(
+                  `Minimal API: ${minimalResponse.status}\nSimple API: ${simpleResponse.status}\nCheck console for details.`
+                );
+              } catch (error) {
+                console.error("API test failed:", error);
+                alert(`API test failed: ${error}`);
+              }
+            }}
+            className="btn-secondary w-full sm:w-auto sm:min-w-[200px]"
+            disabled={isLoading}
+          >
+            🔧 Test API Connection
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

@@ -24,6 +24,7 @@ export default function Home() {
   const [sortKey, setSortKey] = useState<"title" | "createdAt">("title");
   const [showFavs, setShowFavs] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
   const filtered = useMemo(() => {
     if (!sites) return [];
@@ -65,87 +66,107 @@ export default function Home() {
         </h1>
 
         {/* Search and Controls */}
-        <div className="glass p-4 sm:p-6 rounded-2xl mb-6">
-          <div className="flex p-4 flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div className="search-controls">
+          <div className="controls-row">
             <input
-              className="flex-grow min-w-0 focus-ring"
+              className="search-input"
               placeholder="Search websites..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            <div className="controls-group">
               <select
-                className="focus-ring min-w-0 sm:min-w-[120px]"
+                className="sort-select"
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as any)}
               >
                 <option value="title">A → Z</option>
                 <option value="createdAt">Newest</option>
               </select>
-              <button
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  showFavs
-                    ? "bg-yellow-400 text-yellow-900 shadow-lg"
-                    : "bg-white/80 text-gray-700 hover:bg-white"
-                }`}
-                onClick={() => setShowFavs((f) => !f)}
-              >
-                ⭐ Favorited
-              </button>
-              <button
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  showNotes
-                    ? "bg-blue-400 text-blue-900 shadow-lg"
-                    : "bg-white/80 text-gray-700 hover:bg-white"
-                }`}
-                onClick={() => setShowNotes((f) => !f)}
-              >
-                📝 Noted
-              </button>
+              <label className="filter-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={showFavs}
+                  onChange={() => setShowFavs((f) => !f)}
+                  className="filter-checkbox"
+                />
+                <span>⭐ Favorited</span>
+              </label>
+              <label className="filter-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={showNotes}
+                  onChange={() => setShowNotes((f) => !f)}
+                  className="filter-checkbox"
+                />
+                <span>📝 Noted</span>
+              </label>
             </div>
           </div>
 
           {/* Category Filters */}
-          <fieldset className="border-0 p-0 m-0">
-            <legend className="text-sm font-medium text-gray-700 mb-3 px-1">
-              Filter by category:
-            </legend>
-            <div className="checkbox-grid">
-              {allCats.map((cat) => (
-                <label
-                  key={cat}
-                  className="flex items-center space-x-2 p-2 rounded-lg hover:bg-white/20 transition-colors cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    checked={filterCats.includes(cat)}
-                    onChange={() => toggleCat(cat)}
-                    className="flex-shrink-0"
-                  />
-                  <span className="text-gray-700 text-sm font-medium capitalize">
-                    {cat}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
+          <div className="category-dropdown">
+            <button
+              className="category-dropdown-button"
+              onClick={() => setShowCategoryDropdown((prev) => !prev)}
+            >
+              Filter by category
+              {filterCats.length > 0 && (
+                <span className="category-count-badge">
+                  {filterCats.length}
+                </span>
+              )}
+              <svg
+                className={`category-dropdown-icon ${
+                  showCategoryDropdown ? "open" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            {showCategoryDropdown && (
+              <div className="category-dropdown-menu">
+                {allCats
+                  .filter((cat) => cat !== "other")
+                  .sort()
+                  .concat("other")
+                  .map((cat) => (
+                    <label key={cat} className="category-option-label">
+                      <input
+                        type="checkbox"
+                        checked={filterCats.includes(cat)}
+                        onChange={() => toggleCat(cat)}
+                        className="category-option-checkbox"
+                      />
+                      <span className="category-option-text">{cat}</span>
+                    </label>
+                  ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Results Grid */}
-      <div className="max-w-7xl mx-auto">
+      <div className="results-grid">
         {filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-medium text-gray-600 mb-2">
-              No websites found
-            </h3>
-            <p className="text-gray-500">
+          <div className="no-results">
+            <div className="no-results-icon">🔍</div>
+            <h3 className="no-results-title">No websites found</h3>
+            <p className="no-results-text">
               Try adjusting your search or filter criteria
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+          <div className="websites-grid">
             {filtered.map((site: any) => (
               <WebsiteCard key={site.id} site={site} />
             ))}
