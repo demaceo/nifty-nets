@@ -61,12 +61,12 @@ export default function Home() {
       {/* Header Section */}
       <div className="max-w-7xl mx-auto mb-6 lg:mb-8">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-6 lg:mb-8">
-          Nifty Net
+          NiftyNets
         </h1>
 
         {/* Search and Controls */}
         <div className="glass p-4 sm:p-6 rounded-2xl mb-6">
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="flex p-4 flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
             <input
               className="flex-grow min-w-0 focus-ring"
               placeholder="Search websites..."

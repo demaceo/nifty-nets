@@ -49,14 +49,31 @@ export default function WebsiteForm() {
     console.log("Environment:", process.env.NODE_ENV);
 
     try {
-      const response = await axios.post("/api/websites", form, {
+      console.log("Making API request to /api/websites...");
+
+      const requestData = {
+        url: form.url.trim(),
+        videoSourceUrl: form.videoSourceUrl.trim(),
+        categories: form.categories,
+        notes: form.notes.trim() || null,
+      };
+
+      console.log("Request payload:", requestData);
+      console.log("Request headers:", {
+        "x-admin-key": adminKey ? "***PRESENT***" : "MISSING",
+        "Content-Type": "application/json",
+      });
+
+      const response = await axios.post("/api/websites", requestData, {
         headers: {
           "x-admin-key": adminKey,
           "Content-Type": "application/json",
         },
+        timeout: 10000, // 10 second timeout
       });
 
-      console.log("Response:", response);
+      console.log("Response status:", response.status);
+      console.log("Response data:", response.data);
 
       if (response.status === 201) {
         setSuccess("✅ Website saved successfully!");
@@ -69,6 +86,15 @@ export default function WebsiteForm() {
       console.error("Error saving website:", err);
 
       if (axios.isAxiosError(err)) {
+        console.error("Axios error details:", {
+          status: err.response?.status,
+          statusText: err.response?.statusText,
+          data: err.response?.data,
+          headers: err.response?.headers,
+          url: err.config?.url,
+          method: err.config?.method,
+        });
+
         if (err.response?.status === 401) {
           setError("❌ Unauthorized. Please check your admin key.");
         } else if (err.response?.status === 400) {
@@ -77,19 +103,26 @@ export default function WebsiteForm() {
           );
         } else if (err.response?.status === 405) {
           setError(
-            "❌ Method not allowed. The API endpoint may not be configured correctly."
+            `❌ Method not allowed (405). The server received: ${err.config?.method?.toUpperCase()} ${
+              err.config?.url
+            }. Check Vercel deployment logs.`
           );
         } else if (err.response?.status === 500) {
           setError(
             "❌ " +
               (err.response.data?.error || "Server error. Please try again.")
           );
+        } else if (err.code === "ECONNABORTED") {
+          setError("❌ Request timeout. Please try again.");
         } else {
           setError(
-            "❌ Failed to save website. Please check your connection and try again."
+            `❌ Failed to save website (${
+              err.response?.status || "Unknown"
+            }). Please check your connection and try again.`
           );
         }
       } else {
+        console.error("Non-axios error:", err);
         setError("❌ An unexpected error occurred. Please try again.");
       }
     } finally {
@@ -177,8 +210,56 @@ export default function WebsiteForm() {
         />
       </div>
 
-      {/* Submit Button */}
-      <div className="pt-4">
+      {/* Test API Button and Submit Button */}
+      <div className="pt-4 space-y-3">
+        {/* Test API Button */}
+        <button
+          type="button"
+          onClick={async () => {
+            try {
+              console.log("Testing minimal API endpoint...");
+
+              // Test minimal API first
+              const minimalResponse = await fetch("/api/minimal-test", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ test: "minimal" }),
+              });
+              const minimalData = await minimalResponse.json();
+              console.log(
+                "Minimal API test:",
+                minimalResponse.status,
+                minimalData
+              );
+
+              // Test simple API
+              const simpleResponse = await fetch("/api/simple", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ test: "simple" }),
+              });
+              const simpleData = await simpleResponse.json();
+              console.log(
+                "Simple API test:",
+                simpleResponse.status,
+                simpleData
+              );
+
+              alert(
+                `Minimal API: ${minimalResponse.status}\nSimple API: ${simpleResponse.status}\nCheck console for details.`
+              );
+            } catch (error) {
+              console.error("API test failed:", error);
+              alert(`API test failed: ${error}`);
+            }
+          }}
+          className="btn-secondary w-full sm:w-auto sm:min-w-[200px]"
+          disabled={isLoading}
+        >
+          🔧 Test API Connection
+        </button>
+
+        {/* Submit Button */}
         <button
           type="submit"
           className={`btn-primary w-full sm:w-auto sm:min-w-[200px] ${
