@@ -831,6 +831,80 @@ form::before {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
+/* Enhanced styling for WebsiteCard */
+.card {
+  background: var(--gradient-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-intense);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-600);
+  transition: color 0.3s ease;
+}
+
+.card h3 a:hover {
+  color: var(--primary-500);
+}
+
+.card p {
+  font-size: 0.875rem;
+  color: var(--secondary-600);
+}
+
+.card .categories span {
+  background: var(--secondary-400);
+  color: var(--secondary-900);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.card .categories span:hover {
+  background: var(--secondary-500);
+  color: var(--secondary-100);
+}
+
+.card textarea {
+  background: var(--gradient-dark);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  font-size: 0.875rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card textarea:focus {
+  border-color: var(--accent-emerald);
+  box-shadow: var(--shadow-glow);
+}
+
+.card button {
+  background: var(--gradient-primary);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.card button:hover {
+  background: var(--gradient-secondary);
+  transform: translateY(-2px);
+}
+
 /* Modern focus indicators */
 .focus-ring:focus {
   outline: none;
