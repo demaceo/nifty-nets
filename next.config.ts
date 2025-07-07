@@ -2,10 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ['@prisma/client', 'prisma'],
-  // Ensure API routes use Node.js runtime
-  api: {
-    externalResolver: true,
-  },
 
   // Headers configuration
   async headers() {
