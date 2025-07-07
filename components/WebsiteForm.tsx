@@ -39,6 +39,9 @@ export default function WebsiteForm() {
     setError(null);
     setSuccess(null);
 
+    console.log("Form data:", form);
+    console.log("Admin key:", process.env.NEXT_PUBLIC_ADMIN_KEY);
+
     try {
       const response = await axios.post("/api/websites", form, {
         headers: {
@@ -46,6 +49,8 @@ export default function WebsiteForm() {
           "Content-Type": "application/json",
         },
       });
+
+      console.log("Response:", response);
 
       if (response.status === 201) {
         setSuccess("✅ Website saved successfully!");
