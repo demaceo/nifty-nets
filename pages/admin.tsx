@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import WebsiteForm from "@/components/WebsiteForm";
 import Home from "./index";
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { key } = ctx.query;
   if (key !== process.env.ADMIN_KEY) {
