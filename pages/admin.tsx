@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import WebsiteForm from "@/components/WebsiteForm";
-
+import Home from "./index";
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { key } = ctx.query;
   if (key !== process.env.ADMIN_KEY) {
@@ -29,6 +29,10 @@ export default function AdminPage() {
 
         <div className="card">
           <WebsiteForm />
+        </div>
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold mb-4">Website List</h2>
+          <Home />
         </div>
       </div>
     </div>
