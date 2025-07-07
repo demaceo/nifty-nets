@@ -1,5 +1,3 @@
-// pages/api/websites.ts
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 import { fetchMetadata } from '@/lib/fetchMetadata';
