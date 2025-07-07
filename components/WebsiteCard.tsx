@@ -47,67 +47,99 @@ export default function WebsiteCard({ site }: WebsiteCardProps) {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col">
+    <article className="card group h-full flex flex-col">
+      {/* Image Section */}
+      <div className="relative overflow-hidden rounded-t-xl">
         <Image
           src={site.image || "/file.svg"}
           alt={site.title || site.url}
           width={600}
-          height={160}
-          className="w-full h-40 object-cover"
+          height={200}
+          className="w-full h-32 sm:h-40 lg:h-48 object-cover transition-transform duration-300 group-hover:scale-105"
           style={{ objectFit: "cover" }}
         />
 
-      <div className="p-4 flex flex-col flex-grow">
-        <a
-          href={site.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-lg font-semibold text-gray-800 hover:underline mb-2"
+        {/* Favorite Button Overlay */}
+        <button
+          onClick={toggleFav}
+          className="absolute top-3 right-3 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-xl sm:text-2xl transition-all hover:bg-white hover:scale-110 focus-ring"
+          aria-label={favored ? "Remove from favorites" : "Add to favorites"}
         >
-          {site.title || site.url}
-        </a>
+          {favored ? "⭐" : "☆"}
+        </button>
+      </div>
 
+      {/* Content Section */}
+      <div className="p-4 sm:p-5 lg:p-6 flex flex-col flex-grow space-y-3 sm:space-y-4">
+        {/* Title */}
+        <h3 className="font-semibold text-gray-900 leading-tight">
+          <a
+            href={site.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-base sm:text-lg hover:text-indigo-600 transition-colors line-clamp-2"
+          >
+            {site.title || site.url}
+          </a>
+        </h3>
+
+        {/* Description */}
         {site.description && (
-          <p className="text-gray-600 text-sm mb-4">{site.description}</p>
+          <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 flex-grow">
+            {site.description}
+          </p>
         )}
 
-        <small className="text-gray-500 text-xs mb-4">
-          Video:{" "}
+        {/* Categories */}
+        {site.categories.length > 0 && (
+          <div className="flex flex-wrap gap-1 sm:gap-2">
+            {site.categories.slice(0, 3).map((cat) => (
+              <span
+                key={cat}
+                className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-full capitalize"
+              >
+                {cat}
+              </span>
+            ))}
+            {site.categories.length > 3 && (
+              <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                +{site.categories.length - 3}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Video Source */}
+        <div className="text-xs text-gray-500 border-t pt-3">
+          <span className="font-medium">Video source: </span>
           <a
             href={site.videoSourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline"
+            className="text-indigo-600 hover:text-indigo-800 transition-colors"
           >
             {new URL(site.videoSourceUrl).hostname}
           </a>
-        </small>
+        </div>
 
-        <div className="mt-auto space-y-2">
-          <button
-            onClick={toggleFav}
-            className="text-2xl focus:outline-none"
-            aria-label={favored ? "Unfavorite" : "Favorite"}
-          >
-            {favored ? "★" : "☆"}
-          </button>
-
+        {/* Notes Section */}
+        <div className="mt-auto space-y-2 sm:space-y-3">
           <textarea
-            className="w-full p-2 border rounded-lg text-sm"
-            placeholder="Your note..."
+            className="w-full text-sm focus-ring resize-none"
+            placeholder="Add a personal note..."
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            rows={3}
+            rows={2}
           />
 
           <button
             onClick={saveNote}
-            className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            className="w-full text-sm font-medium bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 transition-all"
           >
-            Save Note
+            💾 Save Note
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

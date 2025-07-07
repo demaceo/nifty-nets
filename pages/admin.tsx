@@ -16,12 +16,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function AdminPage() {
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-xl mx-auto bg-white shadow-lg rounded-2xl p-6">
-        <h1 className="text-2xl font-bold mb-4 text-gray-800">
-          Admin Dashboard
-        </h1>
-        <WebsiteForm />
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-6 lg:mb-8">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">
+            Admin Dashboard
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Add new websites to your collection
+          </p>
+        </div>
+
+        <div className="card">
+          <WebsiteForm />
+        </div>
       </div>
     </div>
   );
