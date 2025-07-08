@@ -122,7 +122,7 @@ export default function WebsiteForm() {
 
   return (
     <div className="form-container">
-      <form onSubmit={submit} className="space-y-6">
+      <form onSubmit={submit} className="form-content">
         {/* Status Messages */}
         {error && <div className="alert alert-error">{error}</div>}
 
@@ -160,7 +160,7 @@ export default function WebsiteForm() {
 
         {/* Categories */}
         <div className="form-group">
-          <fieldset className="border-0 p-0 m-0" disabled={isLoading}>
+          <fieldset className="checkbox-fieldset" disabled={isLoading}>
             <legend className="form-label">Categories</legend>
             <div className="checkbox-grid">
               {allCats.map((cat) => (
@@ -174,12 +174,10 @@ export default function WebsiteForm() {
                     type="checkbox"
                     checked={form.categories.includes(cat)}
                     onChange={() => !isLoading && toggleCat(cat)}
-                    className="flex-shrink-0"
+                    className="checkbox-input"
                     disabled={isLoading}
                   />
-                  <span className="text-gray-200 font-medium capitalize text-sm sm:text-base">
-                    {cat}
-                  </span>
+                  <span className="checkbox-label">{cat}</span>
                 </label>
               ))}
             </div>
@@ -190,7 +188,7 @@ export default function WebsiteForm() {
         <div className="form-group">
           <label className="form-label">Notes (Optional)</label>
           <textarea
-            className="form-input min-h-[100px] resize-y"
+            className="form-textarea"
             placeholder="Add any additional notes about this website..."
             value={form.notes}
             onChange={(e) => setForm({ ...form, notes: e.target.value })}
@@ -200,7 +198,7 @@ export default function WebsiteForm() {
         </div>
 
         {/* Test API Button and Submit Button */}
-        <div className="pt-4 space-y-3">
+        <div className="form-actions">
           {/* Submit Button */}
           <button
             type="submit"
@@ -245,7 +243,7 @@ export default function WebsiteForm() {
                 alert(`API test failed: ${error}`);
               }
             }}
-            className="btn-secondary w-full sm:w-auto sm:min-w-[200px]"
+            className="btn-secondary"
             disabled={isLoading}
           >
             🔧 Test API Connection

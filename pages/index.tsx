@@ -58,12 +58,10 @@ export default function Home() {
     );
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
+    <div className="page-container">
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto mb-6 lg:mb-8">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-6 lg:mb-8">
-          NiftyNets
-        </h1>
+      <div className="page-wrapper">
+        <h1 className="page-title">NiftyNets</h1>
 
         {/* Search and Controls */}
         <div className="search-controls">

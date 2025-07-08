@@ -495,6 +495,48 @@ input[type="checkbox"]:checked::after {
   text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Additional form styling */
+.checkbox-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.checkbox-input {
+  flex-shrink: 0;
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-actions {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .form-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn-secondary {
+    width: auto;
+    min-width: 200px;
+  }
+}
+
 /* Futuristic scrollbar styling */
 ::-webkit-scrollbar {
   width: 12px;
@@ -847,14 +889,12 @@ form::before {
 }
 
 .card .categories span {
-  background: inherit;
   color: inherit;
   padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 500;
   border: 2px solid green;
-  border: 0px solid var(--secondary-400);
 }
 
 /* Modern focus indicators */
@@ -2246,7 +2286,138 @@ button,
   border-radius: 9999px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   text-transform: capitalize;
-  background-color: inherit;
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+/* Category-specific colors using CSS custom properties */
+.website-card-category-tag[data-category="frontend"] {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.website-card-category-tag[data-category="backend"] {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.website-card-category-tag[data-category="design"] {
+  background: rgba(244, 63, 94, 0.1);
+  color: #f43f5e;
+  border-color: rgba(244, 63, 94, 0.2);
+}
+
+.website-card-category-tag[data-category="database"] {
+  background: rgba(251, 146, 60, 0.1);
+  color: #fb923c;
+  border-color: rgba(251, 146, 60, 0.2);
+}
+
+.website-card-category-tag[data-category="devops"] {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.website-card-category-tag[data-category="tools"] {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.website-card-category-tag[data-category="ai"] {
+  background: rgba(236, 72, 153, 0.1);
+  color: #ec4899;
+  border-color: rgba(236, 72, 153, 0.2);
+}
+
+.website-card-category-tag[data-category="productivity"] {
+  background: rgba(6, 182, 212, 0.1);
+  color: #06b6d4;
+  border-color: rgba(6, 182, 212, 0.2);
+}
+
+.website-card-category-tag[data-category="learning"] {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.website-card-category-tag[data-category="other"] {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+  border-color: rgba(107, 114, 128, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .website-card-category-tag {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+
+  .website-card-category-tag[data-category="frontend"] {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+
+  .website-card-category-tag[data-category="backend"] {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  .website-card-category-tag[data-category="design"] {
+    background: rgba(244, 63, 94, 0.2);
+    color: #fb7185;
+    border-color: rgba(244, 63, 94, 0.3);
+  }
+
+  .website-card-category-tag[data-category="database"] {
+    background: rgba(251, 146, 60, 0.2);
+    color: #fdba74;
+    border-color: rgba(251, 146, 60, 0.3);
+  }
+
+  .website-card-category-tag[data-category="devops"] {
+    background: rgba(168, 85, 247, 0.2);
+    color: #c084fc;
+    border-color: rgba(168, 85, 247, 0.3);
+  }
+
+  .website-card-category-tag[data-category="tools"] {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+
+  .website-card-category-tag[data-category="ai"] {
+    background: rgba(236, 72, 153, 0.2);
+    color: #f472b6;
+    border-color: rgba(236, 72, 153, 0.3);
+  }
+
+  .website-card-category-tag[data-category="productivity"] {
+    background: rgba(6, 182, 212, 0.2);
+    color: #22d3ee;
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+
+  .website-card-category-tag[data-category="learning"] {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+
+  .website-card-category-tag[data-category="other"] {
+    background: rgba(107, 114, 128, 0.2);
+    color: #9ca3af;
+    border-color: rgba(107, 114, 128, 0.3);
+  }
 }
 
 .website-card-category-more {
