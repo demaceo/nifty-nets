@@ -2529,3 +2529,44 @@ button,
 .website-card-save-btn:hover {
   background: linear-gradient(to right, #059669, #047857);
 }
+
+/* Website Card Refresh Button */
+.website-card-refresh-btn {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.website-card-refresh-btn:hover {
+  opacity: 1;
+  background: rgba(var(--accent-rgb), 0.1);
+  transform: rotate(180deg);
+}
+
+.website-card-refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.website-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { fetchMetadata } from "../lib/fetchMetadata";
 
 interface Website {
   id: string;
@@ -20,6 +21,12 @@ interface WebsiteCardProps {
 export default function WebsiteCard({ site }: WebsiteCardProps) {
   const [favored, setFavored] = useState(false);
   const [note, setNote] = useState("");
+  const [metadata, setMetadata] = useState({
+    title: site.title,
+    description: site.description,
+    image: site.image,
+  });
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     // initialize favorite & note from localStorage
@@ -46,13 +53,29 @@ export default function WebsiteCard({ site }: WebsiteCardProps) {
     localStorage.setItem(`note-${site.id}`, note);
   };
 
+  const refreshMetadata = async () => {
+    setIsRefreshing(true);
+    try {
+      const newMetadata = await fetchMetadata(site.url);
+      setMetadata({
+        title: newMetadata.title || site.title,
+        description: newMetadata.description || site.description,
+        image: newMetadata.image || site.image,
+      });
+    } catch (error) {
+      console.error("Failed to refresh metadata:", error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   return (
     <article className="website-card">
       {/* Image Section */}
       <div className="website-card-image-container">
         <Image
-          src={site.image || "/file.svg"}
-          alt={site.title || site.url}
+          src={metadata.image || "/file.svg"}
+          alt={metadata.title || site.url}
           width={300}
           height={100}
           className="website-card-image"
@@ -78,13 +101,21 @@ export default function WebsiteCard({ site }: WebsiteCardProps) {
             rel="noopener noreferrer"
             className="website-card-title-link"
           >
-            {site.title || site.url}
+            {metadata.title || site.url}
           </a>
+          <button
+            onClick={refreshMetadata}
+            className="website-card-refresh-btn"
+            disabled={isRefreshing}
+            aria-label="Refresh metadata"
+          >
+            {isRefreshing ? "🔄" : "🔄"}
+          </button>
         </h3>
 
         {/* Description */}
-        {site.description && (
-          <p className="website-card-description">{site.description}</p>
+        {metadata.description && (
+          <p className="website-card-description">{metadata.description}</p>
         )}
 
         {/* Categories */}
