@@ -3,6 +3,20 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   serverExternalPackages: ['@prisma/client', 'prisma'],
 
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Exclude server-only packages from client bundle
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        worker_threads: false,
+      };
+    }
+    return config;
+  },
+
   // Headers configuration
   async headers() {
     return [

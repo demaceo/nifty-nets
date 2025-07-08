@@ -28,7 +28,7 @@ export async function fetchMetadata(url: string) {
 
         const html = await response.text();
         const metadata = await scraper({ html, url });
-
+        console.log('Fetched metadata:', metadata);
         return {
             title: metadata.title || undefined,
             description: metadata.description || undefined,

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { fetchMetadata } from "../lib/fetchMetadata";
 
 interface Website {
   id: string;
@@ -56,7 +55,19 @@ export default function WebsiteCard({ site }: WebsiteCardProps) {
   const refreshMetadata = async () => {
     setIsRefreshing(true);
     try {
-      const newMetadata = await fetchMetadata(site.url);
+      const response = await fetch("/api/metadata", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url: site.url }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch metadata");
+      }
+
+      const newMetadata = await response.json();
       setMetadata({
         title: newMetadata.title || site.title,
         description: newMetadata.description || site.description,
