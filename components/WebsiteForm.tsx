@@ -192,7 +192,7 @@ export default function WebsiteForm() {
             placeholder="Add any additional notes about this website..."
             value={form.notes}
             onChange={(e) => setForm({ ...form, notes: e.target.value })}
-            rows={4}
+            rows={3}
             disabled={isLoading}
           />
         </div>
@@ -202,7 +202,7 @@ export default function WebsiteForm() {
           {/* Submit Button */}
           <button
             type="submit"
-            className={`btn-primary w-full sm:w-auto sm:min-w-[200px] ${
+            className={`btn-primary ${
               isLoading ? "opacity-75 cursor-not-allowed" : ""
             }`}
             disabled={isLoading}
@@ -246,7 +246,7 @@ export default function WebsiteForm() {
             className="btn-secondary"
             disabled={isLoading}
           >
-            🔧 Test API Connection
+            🔧 Test API
           </button>
         </div>
       </form>
